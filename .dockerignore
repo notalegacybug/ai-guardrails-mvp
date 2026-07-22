@@ -1,0 +1,30 @@
+# Keep the image lean AND keep internal/sensitive files out of it.
+.git
+.gitignore
+.gitattributes
+.dockerignore
+Dockerfile
+
+# Internal-only — must never ship in a handed-over image
+docs/
+.superpowers/
+.claude/
+
+# Local env / caches / build artifacts
+.venv/
+venv/
+env/
+__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Not needed at runtime
+tests/
+examples/
+reports/

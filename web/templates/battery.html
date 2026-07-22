@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Attack battery</h1>
+<p style="color:#555">The set of adversarial probes that get fired at the system.
+   Upload your own JSON to test company-specific scenarios — download the example
+   below to see the format.</p>
+<p>Active: <code>{{ source }}</code> &middot; {{ attacks|length }} attacks</p>
+
+{% if error %}
+<p class="badge LEAK" style="display:inline-block">Upload rejected: {{ error }}</p>
+{% endif %}
+{% if notice %}
+<p class="badge PASS" style="display:inline-block">{{ notice }}</p>
+{% endif %}
+
+<form action="/battery/upload" method="post" enctype="multipart/form-data"
+      class="run" style="margin-top:1rem">
+  <div><label>Upload a custom battery (JSON)</label>
+    <input type="file" name="battery_file" accept="application/json,.json" required></div>
+  <button type="submit">Upload</button>
+</form>
+<form action="/battery/reset" method="post" style="margin-top:.5rem">
+  <button type="submit" style="background:#666">Reset to built-in</button>
+</form>
+<p style="margin-top:.6rem">
+  <a href="/battery/example.json">Download example format &darr;</a>
+  &nbsp;&middot;&nbsp; unknown control ids, duplicate ids, and missing fields are
+  rejected on upload.</p>
+
+<table>
+  <thead><tr><th>ID</th><th>Role</th><th>Prompt</th><th>Expectation</th>
+    <th>Controls</th><th>Setup</th><th>tier3_allowed</th></tr></thead>
+  <tbody>
+  {% for a in attacks %}
+    <tr><td>{{ a.id }}</td><td>{{ a.role }}</td><td>{{ a.prompt }}</td>
+      <td>{{ a.expectation }}</td><td>{{ a.controls | join(', ') }}</td>
+      <td>{{ a.setup_provider or '-' }}</td><td>{{ a.tier3_allowed }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

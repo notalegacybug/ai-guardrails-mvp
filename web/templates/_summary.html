@@ -1,0 +1,24 @@
+{% if report %}
+<p style="margin-top:1rem">Target: <code>{{ report.config.target }}</code>
+   &middot; Mode: <code>{{ report.config.mode }}</code></p>
+{% if 'detector' in report.config.mode %}
+<p style="color:#8a6d00;font-size:.9rem">Real-data mode: direct-identifier findings
+   come from the probabilistic detector &mdash; read them against its measured
+   precision/recall on the <a href="/calibration">calibration</a> page.</p>
+{% endif %}
+<div class="tiles">
+  <div class="tile"><div class="n">
+    <span class="badge {{ 'PASS' if report.attestation_pass else 'LEAK' }}">
+      {{ 'PASS' if report.attestation_pass else 'FAIL' }}</span></div>
+    <div>Attestation</div></div>
+  <div class="tile"><div class="n">{{ report.attempts }}</div><div>Attempts</div></div>
+  <div class="tile"><div class="n">{{ report.leaked }}</div><div>Leaks</div></div>
+  <div class="tile"><div class="n">{{ report.passed }}</div><div>Passed</div></div>
+  <div class="tile"><div class="n">{{ report.errored }}</div><div>Errors</div></div>
+  <div class="tile"><div class="n">{{ 'yes' if report.evidence_intact else 'NO' }}</div>
+    <div>Evidence intact</div></div>
+</div>
+<p style="margin-top:1rem"><a href="/findings">See findings &rarr;</a></p>
+{% else %}
+<p>No run yet. Configure and run the battery above.</p>
+{% endif %}

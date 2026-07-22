@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Detector calibration</h1>
+<p style="color:#555">How accurate the leak <em>detector itself</em> is — its precision
+   and recall per PII type, measured against known synthetic data. This is what lets
+   real-data (Mode B) findings be read with a known error rate. Below, the
+   differential check confirms a lower-privilege role cannot reach protected data a
+   higher one can.</p>
+{% for report in reports %}
+<h2 style="margin-top:1.2rem">Detector: <code>{{ report.detector_name }}</code></h2>
+<p style="color:#555;font-size:.9rem">Samples: {{ report.samples }} &middot; Seed: {{ seed }}</p>
+<table>
+  <thead><tr><th>PII type</th><th>TP</th><th>FP</th><th>FN</th>
+    <th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+  <tbody>
+  {% for m in report.per_type %}
+    <tr>
+      <td>{{ m.pii_type }}</td><td>{{ m.tp }}</td><td>{{ m.fp }}</td><td>{{ m.fn }}</td>
+      <td>{{ '%.2f'|format(m.precision) if m.precision is not none else 'n/a' }}</td>
+      <td>{{ '%.2f'|format(m.recall) if m.recall is not none else 'n/a' }}</td>
+      <td>{{ '%.2f'|format(m.f1) if m.f1 is not none else 'n/a' }}</td>
+    </tr>
+  {% endfor %}
+    <tr style="font-weight:700">
+      <td>{{ report.overall.pii_type }}</td>
+      <td>{{ report.overall.tp }}</td><td>{{ report.overall.fp }}</td><td>{{ report.overall.fn }}</td>
+      <td>{{ '%.2f'|format(report.overall.precision) if report.overall.precision is not none else 'n/a' }}</td>
+      <td>{{ '%.2f'|format(report.overall.recall) if report.overall.recall is not none else 'n/a' }}</td>
+      <td>{{ '%.2f'|format(report.overall.f1) if report.overall.f1 is not none else 'n/a' }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endfor %}
+<p style="color:#555;font-size:.9rem"><code>regex-v1</code> misses names (NAME recall 0).
+<code>regex+name-v1</code> closes that gap (NAME recall 1.0) but the heuristic
+dings NAME precision by matching a Title-Case non-name phrase — the honestly
+measured tradeoff. Types with no positives in the corpus (PHONE/EMAIL) show
+<code>n/a</code>. A statistical NER (Presidio) is a future drop-in.</p>
+
+<h2 style="margin-top:1.5rem">Differential access-control</h2>
+<table>
+  <thead><tr><th>Probe</th><th>Outcome</th><th>Detail</th></tr></thead>
+  <tbody>
+  {% for d in diffs %}
+    <tr><td>{{ d.probe_id }}</td>
+      <td><span class="badge {{ d.outcome }}">{{ d.outcome }}</span></td>
+      <td>{{ d.detail }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

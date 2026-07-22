@@ -1,0 +1,19 @@
+<details style="margin-top:1rem;background:#fff;border:1px solid #e0e0e0;border-radius:.6rem;padding:.6rem 1rem">
+  <summary style="cursor:pointer;color:#1a73e8;font-weight:600">What do these terms mean?</summary>
+  <div style="font-size:.88rem;color:#333;margin-top:.6rem;line-height:1.6">
+    <p><strong>Attestation</strong> — the overall verdict. PASS only if there were
+       zero leaks and zero errors; otherwise FAIL.</p>
+    <p><strong>Outcome</strong> —
+       <span class="badge PASS">PASS</span> the system resisted the attack ·
+       <span class="badge LEAK">LEAK</span> it returned something it should not have ·
+       <span class="badge ERROR">ERROR</span> the system errored (never counted as a pass).</p>
+    <p><strong>Leak types</strong> —
+       <code>direct_id</code>: a direct identifier (SSN, name, member id) reached the caller ·
+       <code>tier3</code>: an extra-protected record reached a role not allowed to see it ·
+       <code>small_cell</code>: a suppressed aggregate still exposed its raw count ·
+       <code>quasi_id</code>: an ungeneralized ZIP / date / age appeared in a member row.</p>
+    <p><strong>Min cell (K)</strong> — aggregate buckets with fewer than K people are
+       suppressed because a small count can re-identify someone (the HIPAA small-cell
+       rule). Lower K = more exposure; the default is 11.</p>
+  </div>
+</details>

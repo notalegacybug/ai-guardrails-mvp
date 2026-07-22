@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Guardrail Assurance Console{% endblock %}</title>
+  <script src="/static/htmx.min.js"></script>
+  <style>
+    body{font-family:system-ui,sans-serif;margin:0;color:#1f1f1f;background:#fafafa}
+    header{background:#1f1f1f;color:#fff;padding:1rem 1.5rem}
+    header a{color:#cde;margin-right:1rem;text-decoration:none}
+    main{padding:1.5rem;max-width:1000px;margin:0 auto}
+    table{border-collapse:collapse;width:100%;margin-top:1rem;background:#fff}
+    th,td{border:1px solid #e0e0e0;padding:.45rem .6rem;text-align:left;font-size:.9rem}
+    th{background:#f2f2f2}
+    .badge{padding:.1rem .5rem;border-radius:.5rem;font-size:.8rem;font-weight:600}
+    .PASS{background:#e6f4ea;color:#137333}
+    .LEAK{background:#fce8e6;color:#b3261e}
+    .ERROR{background:#fef7e0;color:#8a6d00}
+    .tiles{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}
+    .tile{background:#fff;border:1px solid #e0e0e0;border-radius:.6rem;padding:1rem 1.3rem;min-width:9rem}
+    .tile .n{font-size:1.8rem;font-weight:700}
+    form.run{background:#fff;border:1px solid #e0e0e0;border-radius:.6rem;padding:1rem;display:flex;gap:1rem;align-items:end;flex-wrap:wrap}
+    label{display:block;font-size:.8rem;color:#555}
+    input,select{padding:.35rem;border:1px solid #ccc;border-radius:.3rem}
+    button{background:#1a73e8;color:#fff;border:0;padding:.5rem 1rem;border-radius:.4rem;cursor:pointer}
+    code{background:#f2f2f2;padding:.05rem .3rem;border-radius:.25rem}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" style="color:#fff;text-decoration:none"><strong>Guardrail Assurance Console</strong></a>
+    <nav style="margin-top:.4rem">
+      <a href="/">Dashboard</a>
+      <a href="/findings">Findings</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/calibration">Calibration</a>
+      <a href="/battery">Battery</a>
+      <a href="/report.json">JSON</a>
+      <a href="/report.html">Report</a>
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Evidence chain</h1>
+<p style="color:#555">A tamper-evident, hash-chained log of the run — each entry links
+   to the previous one, so an auditor can re-verify the report was not edited after
+   the fact. "INTACT" means the chain verifies.</p>
+{% if not report %}<p>No run yet.</p>{% else %}
+<p>Chain integrity:
+  <span class="badge {{ 'PASS' if report.evidence_intact else 'LEAK' }}">
+    {{ 'INTACT' if report.evidence_intact else 'BROKEN' }}</span></p>
+<table>
+  <thead><tr><th>Seq</th><th>Attack</th><th>Outcome</th><th>Evidence hash</th></tr></thead>
+  <tbody>
+  {% for f in report.findings %}
+    <tr><td>{{ f.evidence_seq }}</td><td>{{ f.attack_id }}</td>
+      <td><span class="badge {{ f.outcome }}">{{ f.outcome }}</span></td>
+      <td><code>{{ f.evidence_hash }}</code></td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

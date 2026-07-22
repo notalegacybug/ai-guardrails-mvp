@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="/findings">&larr; Back to findings</a></p>
+<h1>Finding {{ attack_id }}</h1>
+{% if not finding %}<p>Not found (run the battery first).</p>{% else %}
+<p><strong>{{ finding.description }}</strong></p>
+<p>Role: <code>{{ finding.role }}</code> &middot;
+   Outcome: <span class="badge {{ finding.outcome }}">{{ finding.outcome }}</span> &middot;
+   Expectation: <code>{{ finding.expectation }}</code></p>
+<p>Leak types: {{ finding.leak_types | join(', ') or 'none' }}</p>
+<p>Controls: {{ finding.controls | join(', ') }}</p>
+<p>Evidence: seq {{ finding.evidence_seq }},
+   hash <code>{{ finding.evidence_hash[:16] }}</code></p>
+<h3>Prompt sent</h3><pre>{{ finding.prompt }}</pre>
+<h3>Response snapshot</h3><pre>{{ finding.response_snapshot }}</pre>
+{% endif %}
+{% endblock %}

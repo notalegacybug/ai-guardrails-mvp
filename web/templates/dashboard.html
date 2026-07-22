@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Run assurance battery</h1>
+<p style="max-width:72ch;color:#333;line-height:1.6">
+  This console fires a battery of adversarial prompts at an AI system and reports
+  <strong>what leaked</strong>, with replayable evidence. It is a <strong>tester</strong>
+  (like a pen-test), <strong>not a runtime shield</strong> — you run it to prove whether
+  a system resists, then fix what it finds. Leave the endpoint URL blank to test the
+  built-in reference system on synthetic data, or point it at your own.</p>
+<p>Active battery: <code>{{ battery_source }}</code> ({{ battery_count }} attacks)
+   &middot; <a href="/battery">manage / upload your own &rarr;</a></p>
+<form class="run" hx-post="/run" hx-target="#summary" hx-swap="innerHTML">
+  <div><label>Seed</label><input type="number" name="seed" value="7"></div>
+  <div><label>Min cell (K)</label><input type="number" name="min_cell" value="11">
+    <div style="font-size:.72rem;color:#555;margin-top:.25rem;max-width:16rem">
+      aggregate buckets smaller than K people are suppressed as re-identifiable;
+      lower = more exposure (drives attack A4)</div></div>
+  <div><label>Session role (recorded in evidence)</label>
+    <select name="role">
+      <option value="analyst">analyst</option>
+      <option value="junior_analyst">junior_analyst</option>
+      <option value="readonly">readonly</option>
+    </select></div>
+  <button type="submit">Run battery</button>
+  <div style="flex-basis:100%;height:0"></div>
+  <div style="flex:1 1 100%">
+    <label>External endpoint URL &mdash; leave blank to test our reference system on synthetic data</label>
+    <input type="text" name="endpoint_url" style="width:100%"
+           placeholder="https://staging.yourco.example.com  (blank = local synthetic run)"></div>
+  <div><label>analyst token</label>
+    <input type="text" name="analyst_token" placeholder="bearer token (external only)"></div>
+  <div><label>junior_analyst token</label>
+    <input type="text" name="junior_analyst_token" placeholder="bearer token (external only)"></div>
+  <div><label>Data mode (external only)</label>
+    <select name="data_mode">
+      <option value="canary">synthetic canary &mdash; deterministic</option>
+      <option value="real">real data &mdash; calibrated detector</option>
+    </select></div>
+</form>
+<div id="summary">{% include "_summary.html" %}</div>
+{% include "_legend.html" %}
+{% endblock %}

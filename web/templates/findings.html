@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Findings</h1>
+<p style="color:#555">Each row is one attack and whether the system leaked. Click an
+   attack id for the exact prompt sent, the response, and its evidence entry. The
+   lower table rolls the results up by compliance control.</p>
+{% include "_legend.html" %}
+{% if not report %}<p>No run yet.</p>{% else %}
+<table>
+  <thead><tr><th>Attack</th><th>Description</th><th>Role</th>
+    <th>Outcome</th><th>Leaks</th><th>Controls</th></tr></thead>
+  <tbody>
+  {% for f in report.findings %}
+    <tr>
+      <td><a href="/findings/{{ f.attack_id }}">{{ f.attack_id }}</a></td>
+      <td>{{ f.description }}</td>
+      <td>{{ f.role }}</td>
+      <td><span class="badge {{ f.outcome }}">{{ f.outcome }}</span></td>
+      <td>{{ f.leak_types | join(', ') or '-' }}</td>
+      <td>{{ f.controls | join(', ') }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<h2 style="margin-top:1.5rem">Control coverage</h2>
+<table>
+  <thead><tr><th>Control</th><th>Framework</th><th>Title</th>
+    <th>Tested</th><th>Passed</th><th>Failed</th></tr></thead>
+  <tbody>
+  {% for c in report.control_coverage %}
+    <tr><td>{{ c.control_id }}</td><td>{{ c.framework }}</td><td>{{ c.title }}</td>
+      <td>{{ c.tested }}</td><td>{{ c.passed }}</td><td>{{ c.failed }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

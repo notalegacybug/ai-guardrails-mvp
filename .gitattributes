@@ -1,0 +1,11 @@
+# Normalize line endings: store as LF in the repo, check out native.
+# Stops the LF<->CRLF churn seen when committing from Windows.
+* text=auto eol=lf
+
+*.py    text eol=lf
+*.md    text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+*.toml  text eol=lf
+*.txt   text eol=lf
+*.js    text eol=lf
