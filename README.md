@@ -9,6 +9,9 @@ claims assistant (`sut_claims/`) on synthetic data — and an external-endpoint
 adapter so an org can point the same battery at their own AI (local reference,
 synthetic-canary staging, or a calibrated-detector run against real data).
 
+**Quick look (no install):** open [`examples/demo_prototype.html`](examples/demo_prototype.html)
+in a browser — a clickable walkthrough of the console with canned data from a real run.
+
 ## Layout
 
 - `common/`     — tamper-evident hash-chain primitive
